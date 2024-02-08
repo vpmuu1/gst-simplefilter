@@ -221,18 +221,26 @@ gst_simplefilter_transform_frame (GstVideoFilter * filter, GstVideoFrame * infra
   gint width;
   guint8 *frame_in;
   guint8 *frame_out;
-
+  //vpmuu1 00
+  static int cnt=0;
+  cnt++;
+  //vpmuu1 01
   GstSimplefilter *simplefilter = GST_SIMPLEFILTER (filter);
 
   frame_in = (guint8 *) GST_VIDEO_FRAME_PLANE_DATA (inframe, 0);
   frame_out = (guint8 *) GST_VIDEO_FRAME_PLANE_DATA (outframe, 0);
   width = GST_VIDEO_FRAME_COMP_WIDTH (inframe, 0);
   height = GST_VIDEO_FRAME_COMP_HEIGHT (inframe, 0);
-
+  //vpmuu1 00
+   if (cnt>height) cnt=0;
+  //vpmuu1 01
   cv::Mat img_in(height, width, CV_8UC4, frame_in);
   cv::Mat img_out(height, width, CV_8UC4, frame_out);
 
-  cv::Rect r=cv::Rect(0,0,(width),(height));
+//  cv::Rect r=cv::Rect(0,0,(width),(height));
+    //vpmuu1 00
+    cv::Rect r=cv::Rect(0+cnt,0+cnt,(width),(height));
+    //vpmuu1 01
   cv::rectangle(img_in,r,cv::Scalar(0,255,0),10,8,0);
   img_in.copyTo(img_out);
 
